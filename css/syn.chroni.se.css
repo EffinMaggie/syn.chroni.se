@@ -1,0 +1,154 @@
+*
+{
+	padding: 0;
+	margin: 0;
+}
+
+html
+{
+}
+
+body
+{
+	background-size: 100%;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: Verdana, Helvetica, sans-serif;
+	font-weight: normal;
+	margin: 0.5em;
+}
+
+h1
+{
+	background: rgba(200,200,200,0.7);
+	border-bottom: 1px solid black;
+	margin: -20px -20px 20px -20px;
+	padding: 20px 20px 0.5em 20px;
+	font-size: 1.4em;
+}
+
+h2
+{
+	font-size: 1.4em;
+}
+
+h3
+{
+	font-size: 1.3em;
+}
+
+h4
+{
+	font-size: 1.2em;
+}
+
+h5
+{
+	font-size: 1.1em;
+}
+
+h6
+{
+	font-size: 1.0em;
+}
+
+h1 + ul
+{
+        margin: -20px -20px 0.5em -20px;
+	padding: 0.2em 15px;
+	background: rgba(220,220,220,0.6);
+	border-bottom: 1px solid black;
+}
+
+h1 + ul li
+{
+	display: block;
+	padding: 5px;
+}
+
+h1 + ul li + li
+{
+	font-size: 0.9em;
+	color: #666;
+}
+
+h1 + ul li + li + li,
+h1 + ul:hover li + li
+{
+	display: none;
+}
+
+h1 + ul:hover li + li + li
+{
+	display: block;
+}
+
+div img
+{
+	width: 100%;
+}
+
+div object
+{
+	width: 39em;
+	height: 39em;
+}
+
+div
+{
+	margin: 0.5em;
+	width: 40em;
+	border: 1px solid black;
+	float: left;
+	border-radius: 0.5em;
+}
+
+div h2
+{
+	font-size: 1em;
+	background: rgba(200,200,200,0.7);
+	margin: 0;
+	padding: 5px;
+	font-weight: bold;
+	text-align: right;
+	border-bottom: 1px solid black;
+}
+
+div p
+{
+	padding: 0.5em;
+}
+
+div + div
+{
+	float: right;
+	width: 20em;
+}
+
+p.explanation
+{
+	display: none;
+	font-size: 0.9em;
+	color: #666;
+}
+
+div:hover p.explanation
+{
+	display: block;
+}
+
+a
+{
+	color: #222;
+	text-decoration: underline;
+}
+
+a:hover
+{
+	color: #999;
+}
