@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6
 {
 	font-family: Verdana, Helvetica, sans-serif;
 	font-weight: normal;
-	margin: 0.5em;
+	margin: 0.5em 0.5em 0.5em 0;
 }
 
 h1
@@ -88,6 +88,11 @@ h1 + ul:hover li + li + li
 	display: block;
 }
 
+h1 + ul:hover li + li + li + li
+{
+	display: inline-block;
+}
+
 div img
 {
 	width: 100%;
@@ -151,4 +156,9 @@ a
 a:hover
 {
 	color: #999;
+}
+
+p, code
+{
+	margin: 0.5em 0;
 }

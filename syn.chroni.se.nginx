@@ -36,7 +36,7 @@ server {
 
 	location /svg {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-disabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
@@ -44,7 +44,7 @@ server {
 
 	location /svg+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
@@ -52,7 +52,7 @@ server {
 
 	location /xhtml+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
@@ -61,7 +61,7 @@ server {
 
 	location /html+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
@@ -71,7 +71,7 @@ server {
 
 	location /xhtml {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
@@ -79,7 +79,7 @@ server {
 
 	location /html {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
