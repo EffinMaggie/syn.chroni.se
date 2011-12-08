@@ -10,7 +10,6 @@ html
 
 body
 {
-	background-size: 100%;
 	font-family: Arial, sans-serif;
 	font-size: 14px;
 	padding: 20px;
@@ -26,7 +25,6 @@ h1, h2, h3, h4, h5, h6
 h1
 {
 	font-size: 1em;
-	background: rgba(200,200,200,0.7);
 	border-bottom: 1px solid black;
 	margin: -20px -20px 0.5em -20px;
 	padding: 10px 20px 0.5em 20px;
@@ -70,8 +68,6 @@ h1 + p + ul
 {
         margin: -20px -20px 0.5em -20px;
 	padding: 0.2em 15px;
-	background: rgba(220,220,220,0.6);
-	border-bottom: 1px solid black;
 }
 
 h1 + p + ul li
@@ -87,16 +83,19 @@ h1 + p + ul li + li
 }
 
 h1 + p + ul li + li + li,
+h1 + p:hover + ul li + li,
 h1 + p + ul:hover li + li
 {
 	display: none;
 }
 
+h1 + p:hover + ul li + li + li,
 h1 + p + ul:hover li + li + li
 {
 	display: block;
 }
 
+h1 + p:hover + ul li + li + li + li,
 h1 + p + ul:hover li + li + li + li
 {
 	display: inline-block;
@@ -115,17 +114,14 @@ div object
 
 div
 {
-	margin: 0.5em;
+	margin: 2em;
 	width: 40em;
-	border: 1px solid black;
 	float: left;
-	border-radius: 0.5em;
 }
 
 div h2
 {
 	font-size: 1em;
-	background: rgba(200,200,200,0.7);
 	margin: 0;
 	padding: 5px;
 	font-weight: bold;
