@@ -74,31 +74,13 @@ h1 + p + ul li
 {
 	display: inline-block;
 	padding: 5px;
-}
-
-h1 + p + ul li + li
-{
 	font-size: 0.9em;
 	color: #666;
 }
 
-h1 + p + ul li + li + li,
-h1 + p:hover + ul li + li,
-h1 + p + ul:hover li + li
+h1 + p + ul li + li + li + li
 {
-	display: none;
-}
-
-h1 + p:hover + ul li + li + li,
-h1 + p + ul:hover li + li + li
-{
-	display: block;
-}
-
-h1 + p:hover + ul li + li + li + li,
-h1 + p + ul:hover li + li + li + li
-{
-	display: inline-block;
+	float: right;
 }
 
 div img
