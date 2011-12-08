@@ -1,13 +1,23 @@
+var fallback = null;
+
 function keepTime()
 {
-  var haveDrift = false;
-  var drift = 0;
-  var haveTZOffset = false;
-  var TZOffset = 0;
+  window.onload = function(){};
+  document.removeEventListener("DOMContentLoaded", keepTime, false);
+  if (fallback != null)
+  {
+    window.clearTimeout(fallback);
+  }
+
+  var haveDrift            = false;
+  var drift                = 0;
+  var haveTZOffset         = false;
+  var TZOffset             = 0;
   var clockOptionsSSeconds = 60;
   var clockOptionsSMinutes = 3600;
   var clockOptionsSHours   = 43200;
   var clockOptionsSDays    = 86400;
+  var timeout              = null;
 
   function updateAddressBar()
   {
@@ -249,12 +259,20 @@ function keepTime()
     t = 1000 - (t * 1000 % 1000);
     if (t < 400)
     {
-       t = 1000;
+      t = 1000;
     }
-    window.setTimeout(updateDateTime, t);
+
+    if (timeout != null)
+    {
+      window.clearTimeout(timeout);
+    }
+
+    timeout = window.setTimeout(updateDateTime, t);
   }
 
   updateDateTime();
 };
 
-keepTime();
+document.addEventListener("DOMContentLoaded", keepTime, false);
+window.onload = keepTime;
+fallback = window.setTimeout(keepTime, 5000); /* this is in case none of the other callbacks made it; this is hopefully never used */

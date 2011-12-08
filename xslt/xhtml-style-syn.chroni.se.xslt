@@ -35,9 +35,10 @@
   <xsl:template match="xhtml:body">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
-      <h1>syn.chroni.se :: <xsl:value-of select="/xhtml:html/xhtml:head/xhtml:title"/></h1>
+      <h1>http://syn.chroni.se/ :: <xsl:value-of select="/xhtml:html/xhtml:head/xhtml:title"/></h1>
+      <p>Fast, accurate time information. No fuss, no bull, no advertising.</p>
       <ul>
-        <li>Fast, accurate time information. No fuss, no bull, no advertising. Hop onto freenode's #synchronise for blame, praise or requests.</li>
+        <li>Hop onto freenode's #synchronise for blame, praise or feature requests.</li>
 	<li>Hover over any element (including this one) to get more information.</li>
 	<li>Ever needed to set up an event with someone from a different area? Ever have people be late for that event because they think they're on time, but they're just not in the right time zone? Or their clock is off by a solid fifteen minutes? Accidentally set the wrong time on your server, because someone set the wrong time zone?</li>
 	<li>I know I have. This site fixes that by giving everyone the same time source. It might not be the exact, current time, but as long as everyone is using this site, you're set. It even works on a console when all you have is your trusty text browser. With regular browsers, it's smart enough to compensate for skewed clocks by calculating (and showing) the local clock's drift and adjusting the time accordingly.</li>

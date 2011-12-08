@@ -25,11 +25,12 @@ h1, h2, h3, h4, h5, h6
 
 h1
 {
+	font-size: 1em;
 	background: rgba(200,200,200,0.7);
 	border-bottom: 1px solid black;
-	margin: -20px -20px 20px -20px;
-	padding: 20px 20px 0.5em 20px;
-	font-size: 1.4em;
+	margin: -20px -20px 0.5em -20px;
+	padding: 10px 20px 0.5em 20px;
+	font-weight: bold;
 }
 
 h2
@@ -57,7 +58,15 @@ h6
 	font-size: 1.0em;
 }
 
-h1 + ul
+h1 + p
+{
+	font-size: 1em;
+	margin: -2.2em -20px 20px -20px;
+	padding: 0 20px 0.5em 20px;
+	text-align: right;
+}
+
+h1 + p + ul
 {
         margin: -20px -20px 0.5em -20px;
 	padding: 0.2em 15px;
@@ -65,30 +74,30 @@ h1 + ul
 	border-bottom: 1px solid black;
 }
 
-h1 + ul li
+h1 + p + ul li
 {
-	display: block;
+	display: inline-block;
 	padding: 5px;
 }
 
-h1 + ul li + li
+h1 + p + ul li + li
 {
 	font-size: 0.9em;
 	color: #666;
 }
 
-h1 + ul li + li + li,
-h1 + ul:hover li + li
+h1 + p + ul li + li + li,
+h1 + p + ul:hover li + li
 {
 	display: none;
 }
 
-h1 + ul:hover li + li + li
+h1 + p + ul:hover li + li + li
 {
 	display: block;
 }
 
-h1 + ul:hover li + li + li + li
+h1 + p + ul:hover li + li + li + li
 {
 	display: inline-block;
 }
