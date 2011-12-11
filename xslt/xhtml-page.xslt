@@ -38,7 +38,7 @@
   </xsl:template>
 
   <xsl:template match="syn:page">
-    <html>
+    <html xml:lang="en">
       <head>
         <title><xsl:value-of select="@name" /></title>
         <xsl:choose>

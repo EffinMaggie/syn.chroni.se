@@ -40,6 +40,7 @@ server {
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-disabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
+		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-style-syn.chroni.se.xslt;
 	}
 
 	location /svg+js {
@@ -48,6 +49,15 @@ server {
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
+		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-style-syn.chroni.se.xslt;
+	}
+
+	location /xhtml {
+		alias /srv/http/syn.chroni.se;
+		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
+
+		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
+		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
 	}
 
 	location /xhtml+js {
@@ -59,28 +69,20 @@ server {
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
 	}
 
-	location /html+js {
+	location /html {
 		alias /srv/http/syn.chroni.se;
 		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
 
-		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/html-post-process.xslt;
 	}
 
-	location /xhtml {
+	location /html+js {
 		alias /srv/http/syn.chroni.se;
 		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
 
-		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
-		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
-	}
-
-	location /html {
-		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
-
+		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/html-post-process.xslt;

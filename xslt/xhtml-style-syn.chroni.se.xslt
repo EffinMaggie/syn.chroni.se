@@ -21,6 +21,12 @@
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="xhtml:html">
+    <html>
+      <xsl:apply-templates select="@*|node()" />
+    </html>
+  </xsl:template>
+
   <xsl:template match="xhtml:head">
     <xsl:copy>
       <link href="/css/syn.chroni.se" rel="stylesheet" type="text/css" />
