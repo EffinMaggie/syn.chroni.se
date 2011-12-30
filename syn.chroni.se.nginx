@@ -16,6 +16,11 @@ server {
 	location / {
 		add_header Vary Accept;
 
+        if ($uri ~ ^/(\.git|robots|favicon))
+        {
+            break;
+        }
+
 		if ($http_accept ~* application/xhtml\+xml)
 		{
 			rewrite ^/$ /xhtml/now redirect;
@@ -24,6 +29,10 @@ server {
 
 		rewrite ^/$ /html/now redirect;
 		rewrite ^(.*)$ /html$1 redirect;
+	}
+
+	location /.git {
+        error_page 403 /source-code;
 	}
 
 	location /css {
