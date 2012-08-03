@@ -2,14 +2,13 @@
 # Evidently, this server is running nginx with the native XSLT processor.
 
 server {
-
-	listen   80;
+    listen [::]:80;
 
 	server_name  syn.chroni.se;
 
 	access_log  /var/log/nginx/syn.chroni.se.access.log;
 
-	xslt_types application/xhtml+xml;
+	xslt_types application/xhtml+xml image/svg+xml;
 
 	root /srv/http/syn.chroni.se;
 
@@ -45,7 +44,7 @@ server {
 
 	location /svg {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.svg $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-disabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
@@ -54,7 +53,7 @@ server {
 
 	location /svg+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.svg $uri $uri.cache.xml /php/generate-page;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
