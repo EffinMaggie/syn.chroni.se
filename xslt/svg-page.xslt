@@ -13,6 +13,17 @@
               indent="no"
               media-type="image/svg+xml" />
 
+  <xsl:variable name="time">
+    <xsl:choose>
+      <xsl:when test="//syn:time[@unix]"><xsl:value-of select="//syn:time[@unix]/@unix"/></xsl:when>
+      <xsl:otherwise><xsl:value-of select="date:seconds()" /></xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="now">
+    <xsl:value-of select="date:seconds()" />
+  </xsl:variable>
+
   <xsl:template name="analog-clock">
     <xsl:param name="seconds">0</xsl:param>
     <xsl:param name="seconds1">60</xsl:param>
@@ -136,7 +147,6 @@
         <g id="rHours" transform="rotate({$secondsToday * 360 div $seconds3},500,500)">
           <use xlink:href="#gridout" id="hours" />
         </g>
-        <syn:clock-options sSeconds="{$seconds1}" sMinutes="{$seconds2}" sHours="{$seconds3}" sDays="{$secondsPerDay}" reftime="{$seconds}" />
       </xsl:when>
       <xsl:otherwise>
         <g transform="rotate({$secondsToday * 360 div $seconds1},500,500) translate(100,100) scale(0.8)">
@@ -157,6 +167,13 @@
       </xsl:otherwise>
     </xsl:choose>
     </g>
+    <xsl:choose>
+      <xsl:when test="/syn:page[@js='yes']">
+        <metadata>
+	  <syn:clock-options sSeconds="{$seconds1}" sMinutes="{$seconds2}" sHours="{$seconds3}" sDays="{$secondsPerDay}" reftime="{$seconds}" />
+        </metadata>
+      </xsl:when>
+    </xsl:choose>
     </svg>
     </defs>
     <use xlink:href="#face" />
@@ -165,7 +182,7 @@
   <xsl:template match="syn:clock[@render='analog']">
     <xsl:call-template name="analog-clock">
       <xsl:with-param name="seconds">
-        <xsl:value-of select="date:seconds()" />
+        <xsl:value-of select="$time" />
       </xsl:with-param>
     </xsl:call-template>
   </xsl:template>

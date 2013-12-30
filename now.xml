@@ -2,7 +2,7 @@
 <page xmlns="http://syn.chroni.se/2011" name="Current Time" location="now">
   <clock render="analog" />
   <clock render="digital" />
-  <date-time calendar="unix" clock="unix" />
+  <time calendar="unix" clock="unix" />
   <information type="clock-drift" />
   <information type="time-zone" />
 </page>

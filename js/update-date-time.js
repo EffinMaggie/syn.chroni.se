@@ -10,8 +10,10 @@ function keepTime()
   }
 
   var haveDrift            = false;
-  var drift                = 0;
+  var haveReferenceTime    = false;
   var haveTZOffset         = false;
+  var drift                = 0;
+  var referenceTime        = 0;
   var TZOffset             = 0;
   var clockOptionsSSeconds = 60;
   var clockOptionsSMinutes = 3600;
@@ -154,6 +156,48 @@ function keepTime()
     return t;
   }
 
+  function updateDriftFromMetadata(t)
+  {
+    var es;
+    var i;
+    var j;
+
+    if (!haveDrift)
+    {
+      es = document.getElementsByTagName('meta');
+
+      for (i = 0; i < es.length; i++)
+      {
+        if (es[i].getAttribute('name') == 'reference-time:now:unix')
+        {
+          haveDrift = true;
+          drift = t - es[i].getAttribute('content');
+        }
+        else if ((es[i].getAttribute('name') == 'reference-time:unix'))
+        {
+          if (!haveReferenceTime)
+          {
+            haveReferenceTime = true;
+            referenceTime = es[i].getAttribute('content');
+          }
+
+          if (!haveDrift)
+          {
+            haveDrift = true;
+            drift = t - es[i].getAttribute('content');
+          }
+        }
+      }
+      if (haveDrift)
+      {
+        updateClockDrift();
+        t = unixTime();
+      }
+    }
+
+    return t;
+  }
+
   function updateClockOptions(t)
   {
     var es;
@@ -241,7 +285,78 @@ function keepTime()
         else
         {
           es.removeChild(es.childNodes[j]);
-	  j--;
+          j--;
+        }
+      }
+    }
+  }
+
+  function updateTimer(t)
+  {
+    var es = document.getElementById('difference');
+    var secondsToday;
+    var n;
+    var days;
+    var hours;
+    var minutes;
+    var seconds;
+    var str;
+    var difference = referenceTime - t;
+
+    t = difference * (difference < 0 ? -1 : 1);
+
+    if (es == null)
+    {
+      return;
+    }
+    else
+    {
+      days = Math.floor(t / clockOptionsSDays);
+      secondsToday = t % clockOptionsSDays;
+
+      hours = Math.floor(secondsToday % clockOptionsSDays / clockOptionsSMinutes);
+      minutes = Math.floor(secondsToday % clockOptionsSMinutes / clockOptionsSSeconds);
+      seconds = Math.floor(secondsToday % clockOptionsSSeconds);
+
+      str = 'Unix time ' + referenceTime;
+      if (t == 0)
+      {
+        str += ' is the current time stamp.';
+      }
+      else
+      {
+        str += ' refers to a point in the ' + (difference < 0 ? 'past' : 'future');
+        if (days != 0)
+        {
+          str += ', ' + days + ' days';
+        }
+        if (hours != 0)
+        {
+          str += ', ' + hours + ' hours';
+        }
+        if (minutes != 0)
+        {
+          str += ', ' + minutes + ' minutes';
+        }
+        if (seconds != 0)
+        {
+          str += ', ' + seconds + ' seconds';
+        }
+        str += ' ' + (difference < 0 ? 'ago' : 'from now') + '.';
+      }
+
+      n = document.createTextNode(str);
+
+      for (j = 0; j < es.childNodes.length; j++)
+      {
+        if (j == 0)
+        {
+          es.replaceChild(n,es.childNodes[j]);
+        }
+        else
+        {
+          es.removeChild(es.childNodes[j]);
+          j--;
         }
       }
     }
@@ -250,11 +365,22 @@ function keepTime()
   function updateDateTime()
   {
     var t = unixTime();
-    t = updateUnixTime(t);
-    t = updateClockOptions(t);
+    if (!haveDrift)
+    {
+      t = updateUnixTime(t);
+      t = updateClockOptions(t);
+      t = updateDriftFromMetadata(t);
+    }
+    else
+    {
+      updateUnixTime(t);
+      updateClockOptions(t);
+    }
+
     updateTimeZone();
     updateClock(t);
     updateDigitalClock(t);
+    updateTimer(t);
 
     t = 1000 - (t * 1000 % 1000);
     if (t < 400)

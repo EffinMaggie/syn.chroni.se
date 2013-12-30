@@ -12,6 +12,17 @@
               indent="no"
               media-type="application/xhtml+xml" />
 
+  <xsl:variable name="time">
+    <xsl:choose>
+      <xsl:when test="//syn:time[@unix]"><xsl:value-of select="//syn:time[@unix]/@unix"/></xsl:when>
+      <xsl:otherwise><xsl:value-of select="date:seconds()" /></xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="now">
+    <xsl:value-of select="date:seconds()" />
+  </xsl:variable>
+
   <xsl:template match="@*|node()">
     <xsl:copy>
       <xsl:apply-templates select="@*|node()" />
@@ -37,17 +48,83 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="difference">
+    <xsl:param name="seconds">0</xsl:param>
+    <xsl:param name="seconds1">60</xsl:param>
+    <xsl:param name="seconds2">3600</xsl:param>
+    <xsl:param name="seconds3">86400</xsl:param>
+    <xsl:param name="secondsPerDay">86400</xsl:param>
+
+    <xsl:variable name="difference" select="$seconds - $now" />
+    <xsl:variable name="differenceAbs">
+      <xsl:choose>
+        <xsl:when test="$difference &lt; 0">
+          <xsl:value-of select="$difference * -1" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$difference" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:variable name="secondsDay" select="$differenceAbs mod $secondsPerDay" />
+
+    <p>
+      <xsl:choose>
+        <xsl:when test="/syn:page[@js='yes']">
+          <xsl:attribute name="id">difference</xsl:attribute>
+        </xsl:when>
+      </xsl:choose>
+      Unix time
+      <xsl:value-of select="$seconds" />
+      <xsl:choose>
+        <xsl:when test="$difference = 0">
+          is the current time stamp.
+        </xsl:when>
+        <xsl:otherwise>
+          refers to a point in the
+          <xsl:choose>
+            <xsl:when test="$difference &lt; 0">past</xsl:when>
+            <xsl:otherwise>future</xsl:otherwise>
+          </xsl:choose>
+          <xsl:variable name="rDays" select="floor($differenceAbs div $secondsPerDay)" />
+          <xsl:variable name="rHours" select="floor($secondsDay mod $secondsPerDay div $seconds2)" />
+          <xsl:variable name="rMinutes" select="floor($secondsDay mod $seconds2 div $seconds1)" />
+          <xsl:variable name="rSeconds" select="$secondsDay mod $seconds1" />
+
+          <xsl:choose><xsl:when test="$rDays != 0">, <xsl:value-of select="$rDays" /> days</xsl:when></xsl:choose>
+          <xsl:choose><xsl:when test="$rHours != 0">, <xsl:value-of select="$rHours" /> hours</xsl:when></xsl:choose>
+          <xsl:choose><xsl:when test="$rMinutes != 0">, <xsl:value-of select="$rMinutes" /> minutes</xsl:when></xsl:choose>
+          <xsl:choose><xsl:when test="$rSeconds != 0">, <xsl:value-of select="$rSeconds" /> seconds</xsl:when></xsl:choose>
+          <xsl:choose>
+            <xsl:when test="$difference &lt; 0">
+              ago.
+            </xsl:when>
+            <xsl:otherwise>
+              from now.</xsl:otherwise>
+          </xsl:choose>
+        </xsl:otherwise>
+      </xsl:choose>
+    </p>
+  </xsl:template>
+
   <xsl:template match="syn:page">
     <html xml:lang="en">
       <head>
         <title><xsl:value-of select="@name" /></title>
         <xsl:choose>
           <xsl:when test="/syn:page[@js='yes']">
-	    <script type="text/javascript" src="/js/update-date-time"></script>
-	  </xsl:when>
-	  <xsl:otherwise>
+            <xsl:choose>
+              <xsl:when test="//syn:time[@calendar='unix'][@clock='unix']"></xsl:when>
+              <xsl:otherwise><meta name="reference-time:unix" content="{$time}" /></xsl:otherwise>
+            </xsl:choose>
+            <xsl:choose>
+              <xsl:when test="$time != $now"><meta name="reference-time:now:unix" content="{$now}" /></xsl:when>
+            </xsl:choose>
+            <script type="text/javascript" src="/js/update-date-time"></script>
+          </xsl:when>
+          <xsl:otherwise>
             <script type="text/javascript">location.href=location.href.replace(/(x?html)\//,'$1+js/');</script>
-	  </xsl:otherwise>
+          </xsl:otherwise>
         </xsl:choose>
       </head>
       <body>
@@ -78,22 +155,34 @@
       <h1>Clock [GMT, 24h]</h1>
       <xsl:call-template name="digital-clock">
         <xsl:with-param name="seconds">
-          <xsl:value-of select="date:seconds()" />
+          <xsl:value-of select="$time" />
         </xsl:with-param>
       </xsl:call-template>
       <p class="explanation">This clock is displaying the current time in GMT.</p>
     </div>
   </xsl:template>
 
-  <xsl:template match="syn:date-time[@calendar='unix'][@clock='unix']">
+  <xsl:template match="syn:clock[@render='difference']">
+    <div>
+      <h1>Timer</h1>
+      <xsl:call-template name="difference">
+        <xsl:with-param name="seconds">
+          <xsl:value-of select="$time" />
+        </xsl:with-param>
+      </xsl:call-template>
+      <p class="explanation">The difference between the target time and the current time.</p>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="syn:time[@calendar='unix'][@clock='unix']">
     <div>
       <h1>Unix time</h1>
       <xsl:choose>
         <xsl:when test="/syn:page[@js='yes']">
-          <p id="unix-time"><xsl:value-of select="date:seconds()" /></p>
+          <p id="unix-time"><xsl:value-of select="$time" /></p>
         </xsl:when>
         <xsl:otherwise>
-          <p><xsl:value-of select="date:seconds()" /></p>
+          <p><xsl:value-of select="$time" /></p>
         </xsl:otherwise>
       </xsl:choose>
       <p class="explanation">This is the number of seconds that have passed since the first of January, 1970 at 00:00:00 GMT, excluding leap seconds.</p>

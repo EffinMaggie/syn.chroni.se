@@ -28,6 +28,12 @@
     </xsl:copy>
   </xsl:template>
 
+  <xsl:template match="svg:metadata/*">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" />
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="svg:svg">
     <svg>
       <xsl:apply-templates select="@*|node()" />
