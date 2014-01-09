@@ -45,8 +45,8 @@
       <p>Fast, accurate time information. No fuss, no bull, no advertising.</p>
       <ul>
 	<li><a href="now">Current Time</a></li>
-	<li><a href="irc://irc.freenode.org/synchronise">IRC</a></li>
-	<li><a href="source-code">Source Code</a></li>
+	<li><a href="irc://irc.freenode.org/kyuba">IRC</a></li>
+	<li><a href="https://github.com/jyujin/syn.chroni.se">Source Code</a></li>
 	<li>Hover over any element to get more information.</li>
       </ul>
       <xsl:apply-templates select="node()" />

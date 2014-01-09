@@ -31,7 +31,7 @@ server {
 	}
 
 	location /.git {
-        error_page 403 /source-code;
+        error_page 403 https://github.com/jyujin/syn.chroni.se;
 	}
 
 	location /css {
@@ -44,7 +44,7 @@ server {
 
 	location /svg {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.svg $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.svg $uri /svg/generate;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-disabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
@@ -53,7 +53,7 @@ server {
 
 	location /svg+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.svg $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.svg $uri /svg+js/generate;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/svg-page.xslt;
@@ -62,7 +62,7 @@ server {
 
 	location /xhtml {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri /xhtml/generate;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
@@ -70,7 +70,7 @@ server {
 
 	location /xhtml+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri /xhtml+js/generate;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
@@ -79,7 +79,7 @@ server {
 
 	location /html {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri /html/generate;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
@@ -88,17 +88,11 @@ server {
 
 	location /html+js {
 		alias /srv/http/syn.chroni.se;
-		try_files $uri.xml $uri.xhtml $uri $uri.cache.xml /php/generate-page;
+		try_files $uri.xml $uri.xhtml $uri /html+js/generate;
 
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/js-enabled.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-page.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/xhtml-style-syn.chroni.se.xslt;
 		xslt_stylesheet /srv/http/syn.chroni.se/xslt/html-post-process.xslt;
-	}
-
-	location /php {
-		include /etc/nginx/fastcgi_params;
-		fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name.php;
-		fastcgi_pass   unix:/var/run/fastcgi-php.socket;
 	}
 }
