@@ -1,6 +1,14 @@
 # This is the configuration file for http://syn.chroni.se/
 # Evidently, this server is running nginx with the native XSLT processor.
 
+map $request_uri $clock {
+    ~^(.*)/@(?<cl>clock).*$ $cl;
+}
+
+map $request_uri $clocktype {
+    ~^(.*)/\w+,@(?<ty>analog)$ $ty;
+}
+
 server {
     listen [::]:80;
 
@@ -11,6 +19,9 @@ server {
 	xslt_types application/xhtml+xml image/svg+xml;
 
 	root /srv/http/syn.chroni.se;
+
+    xslt_string_param clock $clock;
+    xslt_string_param clocktype $clocktype;
 
 	location / {
 		add_header Vary Accept;

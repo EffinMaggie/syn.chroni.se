@@ -13,6 +13,9 @@
               indent="no"
               media-type="image/svg+xml" />
 
+  <xsl:param name="clock"/>
+  <xsl:param name="clocktype"/>
+
   <xsl:variable name="time">
     <xsl:choose>
       <xsl:when test="//syn:time[@unix]"><xsl:value-of select="//syn:time[@unix]/@unix"/></xsl:when>
@@ -191,5 +194,20 @@
     <svg version="1.1" viewBox="0 0 100 100">
       <xsl:apply-templates select="*" />
     </svg>
+  </xsl:template>
+
+  <xsl:template match="syn:blank">
+    <xsl:choose>
+      <xsl:when test="($clock='clock') and ($clocktype='analog')">
+        <xsl:call-template name="analog-clock">
+          <xsl:with-param name="seconds"><xsl:value-of select="$time"/></xsl:with-param>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="analog-clock">
+          <xsl:with-param name="seconds"><xsl:value-of select="$time"/></xsl:with-param>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 </xsl:stylesheet>
