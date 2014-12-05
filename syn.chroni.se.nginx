@@ -10,6 +10,19 @@ map $request_uri $clocktype {
 }
 
 server {
+    listen 80;
+    listen [::]:80;
+
+    keepalive_timeout   70;
+
+    server_name *.chroni.se;
+    server_name chroni.se;
+
+    return 301 http://syn.chroni.se$request_uri;
+}
+
+server {
+    listen 80;
     listen [::]:80;
 
 	server_name  syn.chroni.se;
